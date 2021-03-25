@@ -42,10 +42,10 @@ class ActionHelloWorld(Action):
 
         return []
 
-class ActionSearchRestaurant(Action):
+class ActionCovidStateInfo(Action):
 
     def name(self) -> Text:
-        return "action_search_restaurant"
+        return "action_covid_state_info"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -54,16 +54,13 @@ class ActionSearchRestaurant(Action):
         entities = tracker.latest_message['entities']
 
         print(entities)
-        hotel = "No result for this hotel."
+        state = "No result for this state."
         for e in entities:
-            if e['entity'] == 'hotel':
-                hotel = e['value']
+            if e['entity'] == 'state':
+                state = e['value']
 
-        if hotel.lower() == "indian":
-            message = "1 2 4 3 5"
-        else:
-            message = "askn sdks skk"
+        # print(state)
 
-        dispatcher.utter_message(text=f"[INFO] Searching Restaurant.............\n[RESULT] {message}")
+        dispatcher.utter_message(text=f"[INFO] Covid status for {state.title()}.............")
 
         return []

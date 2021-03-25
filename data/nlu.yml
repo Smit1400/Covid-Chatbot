@@ -97,8 +97,8 @@ nlu:
       - programming
       - first program
 
-  - intent: search_restaurant
+  - intent: covid_state_info
     examples: |
-      - show [indian](hotel) restaurant
-      - show [thai](hotel) restaurant
-      - show [italian](hotel) restaurant
+      - current covid cases in [maharashtra](state)
+      - current covid cases in [gujarat](state)
+      - current covid cases in [punjab](state)

@@ -13,10 +13,10 @@ stories:
       - intent: hello_world
       - action: action_hello_world
 
-  - story: search restaurant path
+  - story: covid state info path
     steps:
-      - intent: search_restaurant
-      - action: action_search_restaurant
+      - intent: covid_state_info
+      - action: action_covid_state_info
 
   - story: sad path 1
     steps:
