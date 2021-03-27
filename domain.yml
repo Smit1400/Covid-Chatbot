@@ -10,14 +10,31 @@ intents:
   - bot_challenge
   - hello_world
   - covid_state_info
+  - show_map
+  - covid_tips
+  - send_email
 
 actions:
   - action_hello_world
   - action_covid_state_info
+  - action_show_map
+  - action_covid_tips
+  - action_send_mail
+
+entities:
+  - state
+  - emailid
+
+slots:
+  emailid:
+    type: text
 
 responses:
   utter_greet:
     - text: "Hey! How are you?"
+
+  utter_ask_emailid:
+    - text: "What's your email address? "
 
   utter_cheer_up:
     - text: "Here is something to cheer you up:"
@@ -34,6 +51,11 @@ responses:
 
   utter_iamabot:
     - text: "I am a bot, powered by Rasa."
+
+forms:
+  email_form:
+    emailid:
+      - type: from_text
 
 session_config:
   session_expiration_time: 60

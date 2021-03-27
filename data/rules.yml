@@ -1,13 +1,28 @@
 version: "2.0"
 
 rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
 
-- rule: Say goodbye anytime the user says goodbye
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
 
-- rule: Say 'I am a bot' anytime the user challenges
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
+  - rule: send email
+    steps:
+      - intent: send_email
+      - action: email_form
+      - active_loop: email_form
+
+  - rule: Submit form
+    condition:
+      - active_loop: email_form
+    steps:
+      - action: email_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_send_mail

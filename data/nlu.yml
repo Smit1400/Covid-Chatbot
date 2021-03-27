@@ -97,8 +97,90 @@ nlu:
       - programming
       - first program
 
+  - intent: show_map
+    examples: |
+      - map
+      - show map
+      - display covid cases through map
+      - display covid map
+      - display map
+      - show world covid cases
+      - display world covid cases
+
+  - intent: send_email
+    examples: |
+      - send email
+      - send covid updates through email
+      - send mail
+      - send covid updated through mail
+      - mail me updates
+      - can you please mail me covid updates
+      - send mail to [smit.ds@somaiya.edu](emailid)
+      - send email to [smit.ds@somaiya.edu](emailid)
+      - send mail to [shahsmit01042000@gmail.com](emailid)
+      - send email to [ramesh@gmail.com](emailid)
+      - mail me at [suresh@yahoo.com](emailid)
+      - mail me at [zack.ttg@somaiya.edu](emailid)
+      - send covid updates to [shah@gmail.com](emailid)
+      - send corona updates at [smit@gmail.com](emailid)
+      - Can you mail me at [vyom@gmail.com](emailid)
+      - Can you send corona updates at [shubh@gmail.com](emailid)
+      - mail to [gianis@yahoo.com](emailid)
+      - send email [lebron@yahoo.com](emailid)
+
+  - intent: covid_tips
+    examples: |
+      - give some tips to stay away from corona
+      - give some tips to stay away from covid
+      - covid tips
+      - corona tips
+      - tips
+      - covid symptoms
+      - corona symptoms
+      - how to stay away from corona?
+      - how to stay away from covid?
+      - how to prevent covid from happening?
+      - precautions for corona
+      - precautions for covid
+      - how to prevent corona?
+
   - intent: covid_state_info
     examples: |
+      - [total](state) covid cases
       - current covid cases in [maharashtra](state)
       - current covid cases in [gujarat](state)
       - current covid cases in [punjab](state)
+      - current covid cases in [bihar](state)
+      - current covid cases in [india](state)
+      - current covid cases in [goa](state)
+      - current covid cases in [delhi](state)
+      - current covid cases in [kerala](state)
+      - current covid cases in [karnataka](state)
+      - current covid cases in [andhra pradesh](state)
+      - current covid cases in [tamil nadu](state)
+      - current covid cases in [uttar pradesh](state)
+      - current covid cases in [west bengal](state)
+      - current covid cases in [odisha](state)
+      - current covid cases in [rajasthan](state)
+      - current covid cases in [chhattisgarh](state)
+      - current covid cases in [telangana](state)
+      - current covid cases in [haryana](state)
+      - current covid cases in [madhya pradesh](state)
+      - current covid cases in [assam](state)
+      - current covid cases in [tamil nadu](state)
+      - current covid cases in [Jammu and Kashmir](state)
+      - current covid cases in [jharkhand](state)
+      - current covid cases in [uttarakhand](state)
+      - current covid cases in [himachal pradesh](state)
+      - current covid cases in [puducherry](state)
+      - current covid cases in [tripura](state)
+      - current covid cases in [manipur](state)
+      - current covid cases in [chandigarh](state)
+      - current covid cases in [arunachal pradesh](state)
+      - current covid cases in [meghalaya](state)
+      - current covid cases in [nagaland](state)
+      - current covid cases in [ladakh](state)
+      - current covid cases in [sikkim](state)
+      - current covid cases in [mizoram](state)
+      - current covid cases in [lakshadweep](state)
+      - current covid cases in [Andaman and Nicobar Islands](state)

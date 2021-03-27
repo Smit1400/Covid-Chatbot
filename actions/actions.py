@@ -11,6 +11,12 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import requests
+import plotly.graph_objects as go
+import pandas as pd
 #
 #
 # class ActionHelloWorld(Action):
@@ -54,13 +60,137 @@ class ActionCovidStateInfo(Action):
         entities = tracker.latest_message['entities']
 
         print(entities)
-        state = "No result for this state."
+        state = "Not"
         for e in entities:
             if e['entity'] == 'state':
                 state = e['value']
+                break
 
-        # print(state)
+        message = "No result for this state"
+        if state != "Not":
+            api_response = requests.get("https://api.covid19india.org/data.json").json()
+            if state.title() == "India":
+                res = api_response['statewise'][0]
+                message = f"\n{state.title()} covid updates: \nActive cases = {res['active']}\nTotal Confirmed = {res['confirmed']}\nDeaths = {res['deaths']}\nLast updated Time = {res['lastupdatedtime']}\n"
+            for res in api_response['statewise']:
+                if res['state'] == state.title():
+                    message = f"\n{state.title()} covid updates: \nActive cases = {res['active']}\nTotal Confirmed = {res['confirmed']}\nDeaths = {res['deaths']}\nLast updated Time = {res['lastupdatedtime']}\n"
 
-        dispatcher.utter_message(text=f"[INFO] Covid status for {state.title()}.............")
+        dispatcher.utter_message(text=f"{message}")
 
         return []
+
+class ActionShowMap(Action):
+
+    def name(self) -> Text:
+        return "action_show_map"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        df = pd.read_csv("time_series_covid_19_confirmed.csv")
+        df = df.rename(columns= {"Country/Region" : "Country", "Province/State": "Province"})
+
+        total_list = df.groupby('Country')['2/27/21'].sum().tolist()
+
+        country_list = df["Country"].tolist()
+        country_set = set(country_list)
+        country_list = list(country_set)
+        country_list.sort()
+
+        new_df = pd.DataFrame(list(zip(country_list, total_list)), 
+                    columns =['Country', 'Total_Cases'])
+
+        colors = ["#F9F9F5", "#FAFAE6", "#FCFCCB", "#FCFCAE",  "#FCF1AE", "#FCEA7D", "#FCD97D",
+                "#FCCE7D", "#FCC07D", "#FEB562", "#F9A648",  "#F98E48", "#FD8739", "#FE7519",
+                "#FE5E19", "#FA520A", "#FA2B0A", "#9B1803",  "#861604", "#651104", "#570303",]
+
+
+        fig = go.Figure(data=go.Choropleth(
+            locationmode = "country names",
+            locations = new_df['Country'],
+            z = new_df['Total_Cases'],
+            text = new_df['Country'],
+            colorscale = colors,
+            autocolorscale=False,
+            reversescale=False,
+            colorbar_title = 'Reported Covid-19 Cases',
+        ))
+
+        fig.update_layout(
+            title_text='Reported Covid-19 Cases',
+            geo=dict(
+                showcoastlines=True,
+            ),
+        )
+        # fig.show()
+        fig.write_html('first_figure.html', auto_open=True)
+
+        dispatcher.utter_message(text="Map is displayed on browser.")
+
+        return []
+
+class ActionCovidTips(Action):
+
+    def name(self) -> Text:
+        return "action_covid_tips"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        symp = "\n\nMost people who are infected with the SARS-CoV-2 virus have respiratory symptoms. They start to feel a little bit unwell, they will have a fever, they may have a cough or a sore throat or sneeze. In some individuals, they may have gastrointestinal symptoms. Others may lose the sense of smell or the sense of taste\n"
+        prec = '''\n\nTo prevent the spread of COVID-19:\n\n
+1. Clean your hands often. Use soap and water, or an alcohol-based hand rub.\n
+2. Maintain a safe distance from anyone who is coughing or sneezing.\n
+3. Wear a mask when physical distancing is not possible.\n
+4. Don’t touch your eyes, nose or mouth.\n
+5. Cover your nose and mouth with your bent elbow or a tissue when you cough or sneeze.\n
+6. Stay home if you feel unwell.\n
+7. If you have a fever, cough and difficulty breathing, seek medical attention.\n\n'''
+        tips = f"Symptoms :{symp}\n\nPrecautions :{prec}"
+
+        dispatcher.utter_message(text=f"{tips}")
+
+        return []
+
+class ActionSendMail(Action):
+
+    def name(self) -> Text:
+        return "action_send_mail"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("Sending email.................")
+        send_email(
+            tracker.get_slot("emailid"),
+        )
+
+        dispatcher.utter_message(text="Check Your Inbox.")
+
+        return []
+
+def send_email(to_addr):
+    from_addr = "chhadvasmitpersonal00@gmail.com"
+    # instance of MIMEMultipart
+    msg = MIMEMultipart()
+    # storing the senders email address
+    msg['From'] = from_addr
+    # storing the receivers email address
+    msg['To'] = to_addr
+    # storing the subject
+    msg['Subject'] = "COVID updates from chatbot"
+    body = "Stay Safe"
+    msg.attach(MIMEText(body, 'plain'))
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    # Authentication
+    try:
+        s.login(from_addr, "Smitchhadva1400#")
+        text = msg.as_string()
+        s.sendmail(from_addr, to_addr, text)
+    except:
+        print("An Error occured while sending email.")
+    finally:
+        s.quit()

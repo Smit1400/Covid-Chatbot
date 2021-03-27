@@ -18,6 +18,16 @@ stories:
       - intent: covid_state_info
       - action: action_covid_state_info
 
+  - story: covid map
+    steps:
+      - intent: show_map
+      - action: action_show_map
+
+  - story: covid tips
+    steps:
+      - intent: covid_tips
+      - action: action_covid_tips
+
   - story: sad path 1
     steps:
       - intent: greet
