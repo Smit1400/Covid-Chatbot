@@ -191,7 +191,7 @@ class ActionCovidUpdates(Action):
 
 
 def send_email(to_addr):
-    from_addr = "chhadvasmitpersonal00@gmail.com"
+    from_addr = "testbot010400@gmail.com"
     # instance of MIMEMultipart
     msg = MIMEMultipart()
     # storing the senders email address
@@ -222,7 +222,7 @@ def send_email(to_addr):
     s.starttls()
     # Authentication
     try:
-        s.login(from_addr, "Smitchhadva1400#")
+        s.login(from_addr, "testingbot010400#")
         text = msg.as_string()
         s.sendmail(from_addr, to_addr, text)
     except:
