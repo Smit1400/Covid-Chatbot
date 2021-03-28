@@ -11,9 +11,10 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-import smtplib
+from rasa_sdk.events import SlotSet
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import smtplib
 import requests
 import plotly.graph_objects as go
 import pandas as pd
@@ -162,14 +163,33 @@ class ActionSendMail(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        email = tracker.get_slot('emailid')
+        print("email is ",email)
         print("Sending email.................")
-        send_email(
-            tracker.get_slot("emailid"),
-        )
+        send_email(email)
 
         dispatcher.utter_message(text="Check Your Inbox.")
 
+        return [SlotSet("emailid",None)]
+
+class ActionCovidUpdates(Action):
+
+    def name(self) -> Text:
+        return "action_covid_updates"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        message = "No result."
+        api_response = requests.get("https://api.covid19india.org/data.json").json()
+        res = api_response['cases_time_series'][-1]
+        message = f"\nCovid Updates: \nLast updated Time : {res['dateymd']}\nCases on {res['date']} : {res['dailyconfirmed']}\nTotal Deaths on {res['date']} : {res['dailydeceased']}\nDaily Recovered on {res['date']} : {res['dailyrecovered']}\nTotal Confirmed : {res['totalconfirmed']}\nDeaths : {res['totaldeceased']}\nTotal Recovered : {res['totalrecovered']}\n\n\tStay Safe!"
+        
+        dispatcher.utter_message(text=message)
+
         return []
+
 
 def send_email(to_addr):
     from_addr = "chhadvasmitpersonal00@gmail.com"
@@ -180,8 +200,24 @@ def send_email(to_addr):
     # storing the receivers email address
     msg['To'] = to_addr
     # storing the subject
+
     msg['Subject'] = "COVID updates from chatbot"
-    body = "Stay Safe"
+    api_response = requests.get("https://api.covid19india.org/data.json").json()
+    res = api_response['cases_time_series'][-1]
+    message = f"\n\nCovid Updates: \n\nLast updated Time : {res['dateymd']}\nCases on {res['date']} : {res['dailyconfirmed']}\nTotal Deaths on {res['date']} : {res['dailydeceased']}\nDaily Recovered on {res['date']} : {res['dailyrecovered']}\nTotal Confirmed : {res['totalconfirmed']}\nDeaths : {res['totaldeceased']}\nTotal Recovered : {res['totalrecovered']}\n"
+    d = "\nStay Safe!"
+    symp = "\nMost people who are infected with the SARS-CoV-2 virus have respiratory symptoms. They start to feel a little bit unwell, they will have a fever, they may have a cough or a sore throat or sneeze. In some individuals, they may have gastrointestinal symptoms. Others may lose the sense of smell or the sense of taste\n"
+    prec = '''\nTo prevent the spread of COVID-19:\n
+1. Clean your hands often. Use soap and water, or an alcohol-based hand rub.\n
+2. Maintain a safe distance from anyone who is coughing or sneezing.\n
+3. Wear a mask when physical distancing is not possible.\n
+4. Don’t touch your eyes, nose or mouth.\n
+5. Cover your nose and mouth with your bent elbow or a tissue when you cough or sneeze.\n
+6. Stay home if you feel unwell.\n
+7. If you have a fever, cough and difficulty breathing, seek medical attention.\n\n'''
+    tips = f"\nSymptoms :{symp}\n\nPrecautions :{prec}"
+    final = message + tips + d
+    body = final
     msg.attach(MIMEText(body, 'plain'))
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()

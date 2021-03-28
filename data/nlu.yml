@@ -61,6 +61,8 @@ nlu:
       - I am great
       - I am amazing
       - I am going to save the world
+      - I am fine
+      - I am good
       - super stoked
       - extremely good
       - so so perfect
@@ -127,6 +129,15 @@ nlu:
       - Can you send corona updates at [shubh@gmail.com](emailid)
       - mail to [gianis@yahoo.com](emailid)
       - send email [lebron@yahoo.com](emailid)
+
+  - intent: covid_updates
+    examples: |
+      - give me covid updates
+      - yesterdays cases in india
+      - corona updates
+      - covid updates
+      - updates
+      - give me corona updates
 
   - intent: covid_tips
     examples: |

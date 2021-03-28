@@ -13,6 +13,7 @@ intents:
   - show_map
   - covid_tips
   - send_email
+  - covid_updates
 
 actions:
   - action_hello_world
@@ -20,6 +21,7 @@ actions:
   - action_show_map
   - action_covid_tips
   - action_send_mail
+  - action_covid_updates
 
 entities:
   - state
@@ -32,6 +34,9 @@ slots:
 responses:
   utter_greet:
     - text: "Hey! How are you?"
+
+  utter_deny:
+    - text: "Ok."
 
   utter_ask_emailid:
     - text: "What's your email address? "

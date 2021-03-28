@@ -28,6 +28,11 @@ stories:
       - intent: covid_tips
       - action: action_covid_tips
 
+  - story: corona updates
+    steps:
+      - intent: covid_updates
+      - action: action_covid_updates
+
   - story: sad path 1
     steps:
       - intent: greet
@@ -46,4 +51,4 @@ stories:
       - action: utter_cheer_up
       - action: utter_did_that_help
       - intent: deny
-      - action: utter_goodbye
+      - action: utter_deny
