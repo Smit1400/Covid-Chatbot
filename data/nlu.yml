@@ -138,6 +138,8 @@ nlu:
       - covid updates
       - updates
       - give me corona updates
+      - latest corona updates
+      - latest covid updates
 
   - intent: covid_tips
     examples: |
@@ -157,6 +159,11 @@ nlu:
 
   - intent: covid_state_info
     examples: |
+      - cases in [india](state)
+      - cases in [maharashtra](state)
+      - cases in [delhi](state)
+      - [maharashtra](state) covid cases
+      - [india](state) covid cases
       - [total](state) covid cases
       - current covid cases in [maharashtra](state)
       - current covid cases in [gujarat](state)
