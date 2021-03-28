@@ -126,9 +126,8 @@ class ActionShowMap(Action):
             ),
         )
         # fig.show()
-        fig.write_html('first_figure.html', auto_open=True)
-
-        dispatcher.utter_message(text="Map is displayed on browser.")
+        fig.write_html('first_figure.html')
+        dispatcher.utter_message(text = "Map is displayed in the browser",attachment = fig.show())
 
         return []
 
