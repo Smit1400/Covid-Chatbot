@@ -11,6 +11,7 @@ intents:
   - covid_updates
   - covid_info
   - covid_spread
+  - welcome
 
 actions:
   - action_covid_state_info
