@@ -5,13 +5,8 @@ stories:
     steps:
       - intent: greet
       - action: utter_greet
-      - intent: mood_great
-      - action: utter_happy
-
-  - story: hello world path
-    steps:
-      - intent: hello_world
-      - action: action_hello_world
+      - intent: welcome
+      - action: utter_welcome
 
   - story: covid state info path
     steps:
@@ -22,6 +17,16 @@ stories:
     steps:
       - intent: show_map
       - action: action_show_map
+
+  - story: covid info
+    steps:
+      - intent: covid_info
+      - action: action_covid_info
+
+  - story: covid spread
+    steps:
+      - intent: covid_spread
+      - action: action_covid_spread
 
   - story: covid tips
     steps:
@@ -37,18 +42,8 @@ stories:
     steps:
       - intent: greet
       - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
 
   - story: sad path 2
     steps:
       - intent: greet
       - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: deny
-      - action: utter_deny

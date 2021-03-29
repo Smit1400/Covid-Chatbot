@@ -34,18 +34,40 @@ import pandas as pd
 #         return []
 
 
-class ActionHelloWorld(Action):
+class ActionCovidInfo(Action):
 
     def name(self) -> Text:
-        return "action_hello_world"
+        return "action_covid_info"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
 
-        print("I am from actions.py")
-        dispatcher.utter_message(text="Hey! Lets build a chatbot.")
+        message = '''
+\nCOVID-19 is the disease caused by the new coronavirus that was first identified in December 2019.\n
+COVID-19 symptoms include cough, fever or chills, shortness of breath or difficulty breathing, muscle or body aches, sore throat, new loss of taste or smell, diarrhea, headache, new fatigue, nausea or vomiting and congestion or runny nose. COVID-19 can be severe, and some cases have caused death.\n
+The new coronavirus can be spread from person to person. It is diagnosed with a laboratory test.\n
+There is no coronavirus vaccine yet. Prevention involves frequent hand-washing, coughing into the bend of your elbow, staying home when you are sick and wearing a cloth face covering if you can't practice physical distancing.\n
+'''
+        dispatcher.utter_message(text=message)
+
+        return []
+
+class ActionCovidSpread(Action):
+
+    def name(self) -> Text:
+        return "action_covid_spread"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+
+        message = '''
+\nThe virus is transmitted through direct contact with respiratory droplets of an infected person (generated through coughing and sneezing). Individuals can also be infected from and touching surfaces contaminated with the virus and touching their face (e.g., eyes, nose, mouth). The COVID-19 virus may survive on surfaces for several hours, but simple disinfectants can kill it.\n
+'''
+        dispatcher.utter_message(text=message)
 
         return []
 

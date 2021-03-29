@@ -3,25 +3,23 @@ version: "2.0"
 intents:
   - greet
   - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
-  - hello_world
   - covid_state_info
   - show_map
   - covid_tips
   - send_email
   - covid_updates
+  - covid_info
+  - covid_spread
 
 actions:
-  - action_hello_world
   - action_covid_state_info
   - action_show_map
   - action_covid_tips
   - action_send_mail
   - action_covid_updates
+  - action_covid_info
+  - action_covid_spread
 
 entities:
   - state
@@ -33,10 +31,10 @@ slots:
 
 responses:
   utter_greet:
-    - text: "Hey! How are you?"
+    - text: "Hey! Welcome to Covid Chatbot!"
 
-  utter_deny:
-    - text: "Ok."
+  utter_welcome:
+    - text: "Your welcome! Continue exploring."
 
   utter_ask_emailid:
     - text: "What's your email address? "
@@ -45,14 +43,8 @@ responses:
     - text: "Here is something to cheer you up:"
       image: "https://i.imgur.com/nGF1K8f.jpg"
 
-  utter_did_that_help:
-    - text: "Did that help you?"
-
-  utter_happy:
-    - text: "Great, carry on!"
-
   utter_goodbye:
-    - text: "Bye"
+    - text: "Bye! Stay Safe! Take Precautions!"
 
   utter_iamabot:
     - text: "I am a bot, powered by Rasa."
